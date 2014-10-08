@@ -5,8 +5,8 @@
 	};
 
 	var maps = {
-		"infoplus": "http://form.dev.sjtu.edu.cn/",
-		"canvas":	"http;//my.dev.sjtu.edu.cn/"
+		"infoplus": "http://form.dev.sjtu.edu.cn",
+		"canvas":	"http;//my.dev.sjtu.edu.cn"
 	};
 
 	var hash = window.location.hash;
@@ -23,7 +23,8 @@
 		if(null != loc) {
 			loc += path;
 			if(null != console) {
-				log(loc);	
+				log(loc);
+				window.location.href = loc;	
 			}
 		}
 	}
