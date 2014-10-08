@@ -1,0 +1,41 @@
+<html>
+<head>
+	<title>Marstone Studio</title>
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="-1" /> 
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1472479-1']);
+  _gaq.push(['_setDomainName', '.marstone.net']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+<body>
+
+<script type="text/javascript">
+	
+	// var url_marstone_net = "mgs";
+	var url_marstone_net = "classic";
+
+	// 1.
+	// window.open(url_marstone_net, "_parent");
+
+	// 2.
+	// window.location.href= url_marstone_net;
+
+	// 3.
+	var top = window;
+	while (top.parent && top.parent != top)	top = top.parent;
+	top.location.href = url_marstone_net;
+</script>
+</body>
+</html>

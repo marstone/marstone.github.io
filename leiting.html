@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>雷霆战机计算器</title>
+<meta name="google" value="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="renderer" content="webkit" />
+<script>
+
+var POINTS = [ 4660, 4800, 5328, 5996, 7232, 8440, 9600, 9648, 11936, 28800 ];
+var SELECT = [ false, false, true, true, false, true, true, true, true, false ];
+var COUNT = 10;
+var MAX = 300000;
+var MIN = 3000;
+
+var results = [];
+
+function ready() {
+	document.getElementById("start").addEventListener("click", start);
+	var selGoals = document.getElementById("goals");
+	selGoals.addEventListener("change", function(){
+		document.getElementById("goal").value = selGoals.options[selGoals.selectedIndex].innerHTML;
+	});
+
+	var table = document.getElementById("points");
+	table.innerHTML = "";
+
+	var points = POINTS;
+	var select = SELECT;
+	var href = window.location.href;
+	try {
+		var index = href.indexOf("?");
+		if(index > 0) {
+			points = eval("[" + href.substring(index + 1) + "]");
+			select = [];
+		}
+	} catch(e) { }
+
+	var tr = null;
+	for(var i = 0; i < points.length; i++) {
+		if(i % 2 == 0) {
+			tr = document.createElement("tr");
+			table.appendChild(tr);
+		}
+		var td = document.createElement("td");		
+		tr.appendChild(td);
+
+		var label = document.createElement("label");
+		var check = document.createElement("input");
+		check.name = "pt";
+		check.type = "checkbox";
+		check.value = points[i];
+		check.checked = (false != select[i] ? "yes" : null);
+		td.appendChild(check);
+		
+		var text = document.createElement("span");
+		text.innerHTML = check.value;
+		label.appendChild(text);
+		td.appendChild(label);
+
+		var select = createSelect();
+		td.appendChild(select);
+	}
+
+}
+
+function createSelect() {
+	var select = document.createElement("select");
+	for(var i = 0; i <= 10; i++) {
+		var option = document.createElement("option");
+		if(i == 10) {
+			option.value = 500;
+			option.innerHTML = "MAX";
+			option.selected = "yes";
+		} else {
+			option.value = i + 1;
+			option.innerHTML = i + 1;
+		}
+		select.appendChild(option);
+	}
+	return select;
+}
+
+function start(){
+
+	results = [];
+	COUNT = parseInt(document.getElementById("count").value);
+	var goal = parseInt(document.getElementById("goal").value);
+	if(goal > MAX) {
+		alert("too big." + goal + " > " + MAX);
+		return;
+	} else if(goal < MIN) {
+		alert("too small." + goal + " < " + MIN);
+		return;
+	}
+
+	var pts = document.getElementsByName("pt");
+	var points = [];	
+	var ranks = [];	
+	for(var i = 0; i < pts.length; i++) {
+		if(pts[i].checked) {
+			var point = parseInt(pts[i].value);
+			var max = parseInt(pts[i].nextSibling.nextSibling.value);
+			var rank = Math.min(max, Math.ceil(goal / point));
+			points.push(point);
+			ranks.push(rank);
+		}
+	}
+	var size = points.length;	
+	if(0 == size) {
+		alert("nothing selected.");
+		return;
+	}	
+
+	var combine = [];
+	var total = 1;		
+	for(var i = 0; i < size; i++) {
+		combine[i] = 0;
+		total *= ranks[i];
+	}
+		
+	compute(goal, points, ranks, combine, 0);
+	print(goal, results, points);
+}
+
+function print(goal, results, points) {
+	var table = document.getElementById("result");
+	table.innerHTML = "";
+	var size = points.length;
+	var head = document.createElement("tr");
+	table.appendChild(head);
+	var th = document.createElement("th"); 
+	head.appendChild(th);
+	th.innerHTML = "Cost";
+	th = document.createElement("th"); 
+	th.innerHTML = "Diff";
+	head.appendChild(th);
+
+	for(var i = 0; i < size; i++) {
+		var th = document.createElement("th");
+		th.innerHTML = points[i];
+		head.appendChild(th);	
+	}
+
+
+	for(var n = 0; n < Math.min(COUNT, results.length); n++) {
+		var result = results[n];
+		var tr = document.createElement("tr");
+		var pt = document.createElement("td");
+		pt.innerHTML = result[size];
+		tr.appendChild(pt);
+		if(result[size] == goal) {
+			tr.className = "perfect";
+		} else if(result[size] - goal > 500) {
+			tr.className = "highlight";
+		}
+		// diff 
+		var diff = document.createElement("td");
+                diff.innerHTML = result[size] - goal;
+                tr.appendChild(diff);
+
+		var last = size;
+		while(--last >= 0 && result[last] == 0);
+		for(var i = 0; i < size; i++) {
+			var td = document.createElement("td");
+			if(result[i] != 0) {
+				td.innerHTML = result[i];
+			}
+			tr.appendChild(td);
+		}
+		table.appendChild(tr);
+	}
+}
+
+
+function compute(goal, points, ranks, combine, dimension) {
+	var size = points.length;
+	var point = 0;
+	for(var x = 0; x < size; x++) {
+		point += points[x] * combine[x];
+	}
+	// stop recursive and return the result.
+	if(point >= goal) {
+		// add to results, only for top COUNT
+		var i = 0;
+		for(i = 0; i < Math.min(COUNT, results.length); i++) {
+			if(results[i][size] > point) break;
+		}
+		if(i < COUNT) {
+			// clone a combine
+			var result = [];
+	                for(var x = 0; x < size; x++) {
+	                        result[x] = combine[x];
+        	        }
+			result[size] = point;                      
+			results.splice(i, 0, result);
+		}
+		return;
+	}
+	
+	for(var d = dimension; d < size; d++) {
+		// clone a combine
+		/*
+		var combine2 = [];
+		for(var x = 0; x < size; x++) {
+			combine2[x] = combine[x];
+			// increase current dimension for next recursive
+			if(x == d) {
+				combine2[x]++;
+				// stop if current value is too big.
+				if(combine2[x] > ranks[x]) {
+					continue;
+				}
+			}
+		}*/
+		if(combine[d] + 1 > ranks[d]) {
+			continue;
+		}
+		combine[d]++;
+		// recursive
+		compute(goal, points, ranks, combine, d);
+		combine[d]--;
+	}
+}
+
+
+</script>
+
+<style>
+
+#goal, #goals {
+width: 70px;
+}
+
+#start {
+color:green;		
+}
+
+#start {
+-webkit-appearance: none;
+}
+
+
+#result td, #result th {
+/*color:red;*/
+border-left: 1px solid #888;
+border-top: 1px solid #888;
+text-align: center;
+}
+
+#points td {
+text-align: right;
+}
+
+.perfect {
+color:#00cc00;
+}
+
+.highlight {
+color:red;
+}
+
+.footer {
+color:#555;
+}
+</style>
+
+</head>
+
+<body>
+
+<table id="points"></table>
+
+<div>
+<select id="goals">
+	<option>21360</option>
+	<option>37800</option>
+	<option selected>59160</option>
+	<option>81560</option>
+	<option>93160</option>
+	<option>105510</option>
+	<option>118610</option>
+</select>
+<input id="goal" type="text" value="59160" />
+<input id="start" type="submit" value="Compute" />
+<select id="count">
+<option value="5">5</option>
+<option value="10" selected="yes">10</option>
+<option value="20">20</option>
+<option value="50">50</option>
+</select>
+</div>
+
+<div>
+<table id="result"></table>
+</div>
+<!-- since 2014/09/06 -->
+<div class="footer">雷霆战机计算器 &copy; marstone 2014</div>
+<script>
+window.addEventListener("load", ready);
+</script>
+
+</body>
+</html>

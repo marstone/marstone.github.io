@@ -1,0 +1,184 @@
+body{
+margin:0;
+padding:0;
+}
+
+#maincontainer{
+width: 960px; /*Width of main container*/
+margin: 0 auto; /*Center container on page*/
+background-color:#ffffff;
+}
+
+#topsection{
+/* height: 90px; */
+padding-bottom:10px;
+padding-top:10px;
+}
+
+#topsection h1{
+margin: 0;
+padding-top: 15px;
+}
+
+#contentwrapper{
+float: left;
+width: 100%;
+background-color:#ffffff;
+}
+
+#contentcolumn{
+margin-right: 200px; /*Set right margin to RightColumnWidth*/
+}
+
+#rightcolumn{
+float: left;
+width: 200px; /*Width of right column*/
+margin-left: -200px; /*Set left margin to -(RightColumnWidth) */
+}
+
+#footer{
+clear: left;
+width: 100%;
+text-align: center;
+padding: 0;
+padding-top:20px;
+}
+
+.innertube{
+margin: 10px; /*Margins for inner DIV inside each column (to provide padding)*/
+margin-top: 0;
+}
+
+img {border:0;}
+td img {vertical-align:middle}
+table,tr,td { padding:0;margin:0;border:0; }
+table { border-collapse: collapse; border-spacing: 0; }
+table.tool td { white-space: nowrap; }
+table.syntaxtable td { padding:2px; padding-right:5px; }
+table.infotable td, table.infotable th { vertical-align:top; padding:4px; border:1px solid #bbbbbb; }
+table.infotable th {background-color:#eeeeee; }
+
+/* FONT DESIGN */
+body {
+	font-size: 12px;
+	background: #D4D9DD url(/img/bg.png) repeat-y fixed center;
+	font-family: "Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif;
+	line-height: 22px;
+	color: #333;
+	margin-bottom: 40px;
+}
+
+code {
+  background: #F0F0F0;
+  border: 1px solid #dadada;
+}
+
+pre {
+	background: #f5f5f5;
+	border: 1px solid #dadada;
+	padding: 11px;
+	font-size: 11px;
+	line-height: 1.3em;
+	overflow: auto;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+}
+
+a { color: #21759a; text-decoration: none; }
+a:active, a:hover {color:#882222;}
+p a { border-bottom: 1px solid #dfdfdf; }
+a.nocolor {color:#444;}
+h1,h2 {
+	font-family: Georgia, Times, "Times New Roman", serif;
+	font-weight: normal;
+
+}
+h1 {border-bottom: 1px solid #dedede;font-size: 32px;color:#882222;padding-bottom:10px;margin-bottom:14px;}
+#topsection h1 {padding-top:30px;}
+h2 {
+	font-size: 20px;
+	color:#003D5D;
+	padding-bottom:4px;
+	margin-bottom:18px;
+	margin-top:22px;
+	padding:0;
+}
+#rightcolumn h2 {background:none;text-indent:0;}
+h2.first, p.first {padding-top:0;margin-top:0;}
+h3 {font-size: 14px;color:#444;font-weight:bold;padding:0; margin:15px 0 15px 0;}
+
+#timebox { width:180px;border:1px solid #333333; text-align:center; }
+#timebox b { color:#882222 }
+#ad_code {padding:20px;padding-left:0;}
+.small,#footer {font-size:11px;}
+
+.highlight { 
+	text-align:center; 
+	padding:10px; 
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	border:1px solid #003D5D; 
+	margin:0; 
+	margin-bottom:20px; 
+	background-color:#ccddff; 
+	color:#222;
+}
+.highlight h3 { font-size:27px; font-weight:normal; color:#222;}
+
+
+
+input, select {
+border:1px solid #999;
+padding:4px;
+-moz-border-radius: 2px;
+border-radius: 2px;
+-moz-box-shadow: 2px 2px 4px #ddd;
+-webkit-box-shadow: 2px 2px 4px #ddd;
+box-shadow: 2px 2px 4px #ddd;
+}
+
+input:focus, select:focus, input.button:hover {
+border:1px solid #666;
+-moz-box-shadow: 0px 0px 5px #777;
+-webkit-box-shadow: 0px 0px 5px #777;
+box-shadow: 0px 0px 5px #777;
+}
+
+input.button {
+-moz-border-radius: 5px;
+border-radius: 5px;
+border: 1px solid #999999;
+background-color: #FFF397;
+color: #333;
+}
+
+input.dateform {width:30px;}
+input.year {width:50px;}
+label input { border:1px solid #ffffff; }
+form div {padding-top:7px;}
+
+hr.lefthr {
+border: none 0;
+border-top: 1px dashed #888;
+width: 400px;
+height: 1px;
+text-align: left;/*this will align it for IE*/
+margin: 6px auto 20px 0; /*this will align it left for Mozilla*/
+} 
+
+.help[title] {cursor: help;}
+
+/* CLOCK HOMEPAGE */
+#ecclock {
+text-align:center; padding:10px; 
+-moz-border-radius: 10px;
+border-radius: 10px;
+margin:0; 
+color:#003D5D;
+font-size:18px;
+background-color:#eaeafa;
+border:2px solid #d6d6f8;
+display:inline;
+}
+#clocknotice { padding-left:9px;display:inline; color:#999999; }
