@@ -22,6 +22,8 @@ var SnowFall = function() {
 	this.canvas = document.createElement( "canvas" );
 	this.canvas.style.zIndex = 9999;
 	this.canvas.style.display = "block";
+	this.canvas.style.position = "fixed";
+	this.canvas.style.top = 0;
 	document.body.appendChild( this.canvas );
 
 	this.ctx = this.canvas.getContext( "2d" );
